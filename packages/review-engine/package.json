@@ -1,0 +1,14 @@
+{
+  "name": "@ielts-diary/review-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@ielts-diary/contracts": "*",
+    "ts-fsrs": "^5.2.3"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

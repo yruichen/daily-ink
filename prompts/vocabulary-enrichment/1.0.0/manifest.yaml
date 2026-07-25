@@ -1,0 +1,8 @@
+id: contextual-vocabulary-enrichment
+version: 1.0.0
+capability: vocabulary-enrichment
+variables:
+  - response_language
+  - term
+  - context_sentence
+changeNote: Initial contextual word and phrase enrichment.

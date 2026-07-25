@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ielts-diary/contracts": ["packages/contracts/src/index.ts"],
+      "@ielts-diary/database": ["packages/database/src/index.ts"],
+      "@ielts-diary/domain": ["packages/domain/src/index.ts"],
+      "@ielts-diary/llm-core": ["packages/llm-core/src/index.ts"],
+      "@ielts-diary/prompt-engine": ["packages/prompt-engine/src/index.ts"],
+      "@ielts-diary/review-engine": ["packages/review-engine/src/index.ts"]
+    }
+  }
+}

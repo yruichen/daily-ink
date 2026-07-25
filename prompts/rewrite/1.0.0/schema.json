@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rewrittenText", "changes", "notes"],
+  "properties": {
+    "rewrittenText": { "type": "string" },
+    "changes": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["original", "revised", "reason"],
+        "properties": {
+          "original": { "type": "string" },
+          "revised": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" }, "maxItems": 8 }
+  }
+}

@@ -1,0 +1,7 @@
+id: diary-ielts-style-assessment
+version: 1.0.0
+capability: assessment
+variables:
+  - response_language
+  - diary_text
+changeNote: Initial IELTS-style free-writing assessment rubric.

@@ -1,0 +1,46 @@
+name: Feature request
+description: Propose a focused improvement to Daily Ink
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: checkboxes
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and discussions for this idea.
+          required: true
+
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What learner or maintainer problem should this solve?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Proposed outcome
+      description: Describe the behavior you want, without prescribing implementation unless it matters.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Alternatives considered
+      description: How do you handle this today, and what other approaches did you consider?
+
+  - type: dropdown
+    attributes:
+      label: Area
+      options:
+        - Writing and journal
+        - IELTS feedback
+        - AI rewrite
+        - Vocabulary and review
+        - Model providers
+        - Privacy and data
+        - Developer experience
+        - Other
+    validations:
+      required: true

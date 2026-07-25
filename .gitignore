@@ -1,0 +1,62 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.turbo/
+*.tsbuildinfo
+
+# Environment variables and local configuration
+.env
+.env.*
+!.env.example
+*.local
+docker-compose.override.yml
+
+# Secrets and credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+credentials*.json
+secrets*.json
+
+# Runtime data, databases, and backups
+data/*
+!data/.gitkeep
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.backup
+*.bak
+backups/
+
+# Logs and diagnostics
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test and browser automation output
+apps/web/playwright-report/
+apps/web/test-results/
+.playwright-cli/
+output/
+
+# IDE, editor, and operating-system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Codex/agent state
+.agents/
+.codex/
+skills-lock.json

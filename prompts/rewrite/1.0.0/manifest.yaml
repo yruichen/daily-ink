@@ -1,0 +1,8 @@
+id: diary-writing-rewrite
+version: 1.0.0
+capability: rewrite
+variables:
+  - response_language
+  - rewrite_goal
+  - diary_text
+changeNote: Initial meaning-preserving diary rewrite.

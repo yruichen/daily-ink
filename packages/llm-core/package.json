@@ -1,0 +1,14 @@
+{
+  "name": "@ielts-diary/llm-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@ielts-diary/contracts": "*",
+    "@ielts-diary/prompt-engine": "*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

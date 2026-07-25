@@ -1,0 +1,61 @@
+{
+  "name": "daily-ink",
+  "version": "0.1.0",
+  "description": "A local-first English writing journal with IELTS-style AI feedback and FSRS vocabulary review.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yruichen/daily-ink.git"
+  },
+  "homepage": "https://github.com/yruichen/daily-ink#readme",
+  "bugs": {
+    "url": "https://github.com/yruichen/daily-ink/issues"
+  },
+  "keywords": [
+    "ielts",
+    "english-learning",
+    "writing-assistant",
+    "spaced-repetition",
+    "fsrs",
+    "local-first",
+    "self-hosted"
+  ],
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @ielts-diary/api\" \"npm run dev -w @ielts-diary/web\"",
+    "build": "npm run build -w @ielts-diary/web && npm run build -w @ielts-diary/api",
+    "start": "npm run start -w @ielts-diary/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@11.17.0",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^24.1.0",
+    "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "eslint-plugin-import-x": "^4.16.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^3.2.4"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.11.1": true,
+    "esbuild@0.28.1": true,
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.27.7": true,
+    "fsevents@2.3.3": true
+  }
+}

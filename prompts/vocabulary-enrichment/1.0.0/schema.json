@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lemma",
+    "partOfSpeech",
+    "definition",
+    "contextExplanation",
+    "collocations"
+  ],
+  "properties": {
+    "lemma": { "type": "string" },
+    "partOfSpeech": { "type": "string" },
+    "definition": { "type": "string" },
+    "contextExplanation": { "type": "string" },
+    "collocations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 8
+    }
+  }
+}

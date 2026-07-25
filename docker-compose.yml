@@ -1,0 +1,8 @@
+services:
+  daily-ink:
+    build: .
+    ports:
+      - "127.0.0.1:4317:4317"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

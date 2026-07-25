@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "overallScore",
+    "contentDevelopment",
+    "coherenceCohesion",
+    "lexicalResource",
+    "grammaticalRangeAccuracy",
+    "strengths",
+    "priorities",
+    "corrections",
+    "disclaimer"
+  ],
+  "properties": {
+    "overallScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 9,
+      "multipleOf": 0.5
+    },
+    "contentDevelopment": { "$ref": "#/$defs/dimension" },
+    "coherenceCohesion": { "$ref": "#/$defs/dimension" },
+    "lexicalResource": { "$ref": "#/$defs/dimension" },
+    "grammaticalRangeAccuracy": { "$ref": "#/$defs/dimension" },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 5
+    },
+    "priorities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 5
+    },
+    "corrections": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["original", "corrected", "explanation"],
+        "properties": {
+          "original": { "type": "string" },
+          "corrected": { "type": "string" },
+          "explanation": { "type": "string" }
+        }
+      }
+    },
+    "disclaimer": { "type": "string" }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "summary", "evidence", "improvements"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 9,
+          "multipleOf": 0.5
+        },
+        "summary": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 5
+        },
+        "improvements": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 5
+        }
+      }
+    }
+  }
+}
