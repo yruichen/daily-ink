@@ -15,7 +15,7 @@
     "@tiptap/extension-placeholder": "2.11.5",
     "@tiptap/pm": "2.11.5",
     "@tiptap/react": "2.11.5",
-    "@tiptap/starter-kit": "2.11.5",
+    "@tiptap/starter-kit": "3.28.0",
     "i18next": "^25.3.2",
     "lucide-react": "^0.536.0",
     "react": "^19.1.1",
