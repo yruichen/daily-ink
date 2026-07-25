@@ -8,7 +8,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-43853d?style=flat-square)
+![Node.js 22.22+](https://img.shields.io/badge/Node.js-22.22%2B-43853d?style=flat-square)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square)
 ![Local first](https://img.shields.io/badge/data-local--first-2f6457?style=flat-square)
 ![AI providers](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-6b5b95?style=flat-square)
@@ -83,7 +83,7 @@ repetition.
 
 ### Requirements
 
-- Node.js 22 or newer
+- Node.js 22.22 or newer
 - npm 11 or newer
 - An AI endpoint only if you want assessment, rewriting, or vocabulary
   enrichment. Journaling and review work without one.

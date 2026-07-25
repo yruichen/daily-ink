@@ -10,7 +10,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { api } from "../api/client";
 import { Button } from "../components/ui/Button";
 import {

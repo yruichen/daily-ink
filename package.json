@@ -1,6 +1,6 @@
 {
   "name": "daily-ink",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A local-first English writing journal with IELTS-style AI feedback and FSRS vocabulary review.",
   "private": true,
   "license": "MIT",
@@ -37,25 +37,24 @@
     "format:check": "prettier --check ."
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.22.0"
   },
   "packageManager": "npm@11.17.0",
   "devDependencies": {
-    "@eslint/js": "^9.31.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.1.0",
     "concurrently": "^9.2.0",
-    "eslint": "^9.31.0",
-    "eslint-plugin-import-x": "^4.16.1",
+    "eslint": "^10.8.0",
+    "eslint-plugin-import-x": "^4.17.1",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0",
+    "typescript-eslint": "^8.65.0",
     "vitest": "^3.2.4"
   },
   "allowScripts": {
     "better-sqlite3@12.11.1": true,
     "esbuild@0.28.1": true,
     "unrs-resolver@1.12.2": true,
-    "esbuild@0.27.7": true,
     "fsevents@2.3.3": true
   }
 }

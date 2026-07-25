@@ -16,7 +16,7 @@ improvements, tests, and well-scoped features are welcome.
 
 Requirements:
 
-- Node.js 22 or newer
+- Node.js 22.22 or newer
 - npm 11 or newer
 
 Set up the repository:

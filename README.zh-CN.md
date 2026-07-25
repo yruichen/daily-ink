@@ -8,7 +8,7 @@
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-![Node.js 22+](https://img.shields.io/badge/Node.js-22%2B-43853d?style=flat-square)
+![Node.js 22.22+](https://img.shields.io/badge/Node.js-22.22%2B-43853d?style=flat-square)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square)
 ![Local first](https://img.shields.io/badge/data-local--first-2f6457?style=flat-square)
 ![AI providers](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-6b5b95?style=flat-square)
@@ -68,7 +68,7 @@ Daily Ink 是面向 IELTS 学习者及英语写作爱好者的本地优先写作
 
 ### 环境要求
 
-- Node.js 22 或更新版本
+- Node.js 22.22 或更新版本
 - npm 11 或更新版本
 - 只有估分、改写和词汇补全需要 AI 端点；日记与复习可以在没有模型的情况下使用。
 
