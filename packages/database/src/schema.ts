@@ -1,4 +1,5 @@
 import {
+  index,
   integer,
   sqliteTable,
   text,
@@ -70,8 +71,10 @@ export const providerProfiles = sqliteTable("provider_profiles", {
 
 export const vocabularyItems = sqliteTable("vocabulary_items", {
   id: text("id").primaryKey(),
+  lexiconId: text("lexicon_id"),
   term: text("term").notNull(),
   normalizedTerm: text("normalized_term").notNull(),
+  phonetic: text("phonetic").notNull(),
   language: text("language").notNull(),
   kind: text("kind").notNull(),
   lemma: text("lemma").notNull(),
@@ -83,6 +86,50 @@ export const vocabularyItems = sqliteTable("vocabulary_items", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 });
+
+export const lexiconEntries = sqliteTable(
+  "lexicon_entries",
+  {
+    id: text("id").primaryKey(),
+    term: text("term").notNull(),
+    normalizedTerm: text("normalized_term").notNull(),
+    phonetic: text("phonetic").notNull(),
+    definitionEn: text("definition_en").notNull(),
+    translationZh: text("translation_zh").notNull(),
+    partOfSpeech: text("part_of_speech").notNull(),
+    lemma: text("lemma").notNull(),
+    exchange: text("exchange").notNull(),
+    bncRank: integer("bnc_rank"),
+    frequencyRank: integer("frequency_rank"),
+  },
+  (table) => [
+    uniqueIndex("lexicon_entries_normalized_idx").on(table.normalizedTerm),
+  ],
+);
+
+export const wordbooks = sqliteTable("wordbooks", {
+  id: text("id").primaryKey(),
+  nameKey: text("name_key").notNull(),
+  descriptionKey: text("description_key").notNull(),
+  source: text("source").notNull(),
+  builtin: integer("builtin", { mode: "boolean" }).notNull(),
+});
+
+export const wordbookEntries = sqliteTable(
+  "wordbook_entries",
+  {
+    wordbookId: text("wordbook_id").notNull(),
+    lexiconId: text("lexicon_id").notNull(),
+    level: integer("level"),
+    sortOrder: integer("sort_order").notNull(),
+  },
+  (table) => [
+    uniqueIndex("wordbook_entry_unique_idx").on(
+      table.wordbookId,
+      table.lexiconId,
+    ),
+  ],
+);
 
 export const vocabularySources = sqliteTable("vocabulary_sources", {
   id: text("id").primaryKey(),
@@ -104,14 +151,18 @@ export const reviewCards = sqliteTable("review_cards", {
   updatedAt: text("updated_at").notNull(),
 });
 
-export const reviewLogs = sqliteTable("review_logs", {
-  id: text("id").primaryKey(),
-  cardId: text("card_id").notNull(),
-  rating: text("rating").notNull(),
-  reviewedAt: text("reviewed_at").notNull(),
-  previousStateJson: text("previous_state_json").notNull(),
-  nextStateJson: text("next_state_json").notNull(),
-});
+export const reviewLogs = sqliteTable(
+  "review_logs",
+  {
+    id: text("id").primaryKey(),
+    cardId: text("card_id").notNull(),
+    rating: text("rating").notNull(),
+    reviewedAt: text("reviewed_at").notNull(),
+    previousStateJson: text("previous_state_json").notNull(),
+    nextStateJson: text("next_state_json").notNull(),
+  },
+  (table) => [index("review_logs_reviewed_idx").on(table.reviewedAt)],
+);
 
 export const jobs = sqliteTable("jobs", {
   id: text("id").primaryKey(),
@@ -122,5 +173,11 @@ export const jobs = sqliteTable("jobs", {
   resultId: text("result_id"),
   error: text("error"),
   createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+});
+
+export const appSettings = sqliteTable("app_settings", {
+  key: text("key").primaryKey(),
+  valueJson: text("value_json").notNull(),
   updatedAt: text("updated_at").notNull(),
 });

@@ -1,0 +1,27 @@
+{
+  "version": "2026.08.03-1",
+  "generatedAt": "2026-08-03T03:08:05.441Z",
+  "dataFile": "ielts-lexicon.json.gz",
+  "sha256": "60e452327b3b561d38b42d03a13b3dd8554b08f1fb1058730a213004d38ba170",
+  "uncompressedSha256": "041614fe5bfe5f8d8a8441d68768adc3502a6cc70146a875af037b349eff782e",
+  "compressedBytes": 1868339,
+  "uncompressedBytes": 5692106,
+  "entryCount": 10000,
+  "wordbooks": {
+    "ielts-core": 5040,
+    "academic-word-list": 570,
+    "ielts-extended": 10000
+  },
+  "sources": [
+    {
+      "name": "ECDICT",
+      "url": "https://github.com/skywind3000/ECDICT",
+      "license": "MIT"
+    },
+    {
+      "name": "Academic Word List headwords",
+      "url": "https://www.wgtn.ac.nz/lals/resources/academicwordlist/awl-headwords",
+      "attribution": "Averil Coxhead, Victoria University of Wellington"
+    }
+  ]
+}

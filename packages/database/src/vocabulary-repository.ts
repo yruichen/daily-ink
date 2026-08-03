@@ -1,4 +1,9 @@
-import type { VocabularyInput, VocabularyItem } from "@ielts-diary/contracts";
+import type {
+  AppLocale,
+  LexiconEntry,
+  VocabularyInput,
+  VocabularyItem,
+} from "@ielts-diary/contracts";
 import { newId, normalizeTerm, nowIso } from "@ielts-diary/domain";
 import type { DbConnection } from "./connection";
 
@@ -16,8 +21,10 @@ export class VocabularyRepository {
       { context_sentence: string; source_count: number } | undefined;
     return {
       id: String(row.id),
+      lexiconId: row.lexicon_id ? String(row.lexicon_id) : null,
       term: String(row.term),
       normalizedTerm: String(row.normalized_term),
+      phonetic: String(row.phonetic),
       kind: String(row.kind) as VocabularyItem["kind"],
       lemma: String(row.lemma),
       partOfSpeech: String(row.part_of_speech),
@@ -66,9 +73,9 @@ export class VocabularyRepository {
         this.connection
           .prepare(
             `INSERT INTO vocabulary_items
-             (id, term, normalized_term, language, kind, lemma, part_of_speech, definition,
+             (id, lexicon_id, term, normalized_term, phonetic, language, kind, lemma, part_of_speech, definition,
               context_explanation, collocations_json, tags_json, created_at, updated_at)
-             VALUES (?, ?, ?, 'en', ?, '', '', ?, '', '[]', ?, ?, ?)`,
+             VALUES (?, NULL, ?, ?, '', 'en', ?, '', '', ?, '', '[]', ?, ?, ?)`,
           )
           .run(
             vocabularyId,
@@ -124,6 +131,86 @@ export class VocabularyRepository {
             input.contextSentence,
             now,
           );
+      }
+    });
+    save();
+    return { item: this.get(vocabularyId)!, created: !existing };
+  }
+
+  addFromLexicon(
+    entry: LexiconEntry,
+    wordbookId: string,
+    locale: AppLocale,
+  ): { item: VocabularyItem; created: boolean } {
+    const existing = this.connection
+      .prepare(
+        "SELECT * FROM vocabulary_items WHERE normalized_term = ? AND language = 'en' AND kind = 'word'",
+      )
+      .get(entry.normalizedTerm) as VocabularyRow | undefined;
+    const vocabularyId = existing ? String(existing.id) : newId();
+    const definition =
+      locale === "zh-CN"
+        ? entry.translationZh || entry.definitionEn
+        : entry.definitionEn || entry.translationZh;
+    const now = nowIso();
+    const save = this.connection.transaction(() => {
+      if (!existing) {
+        this.connection
+          .prepare(
+            `INSERT INTO vocabulary_items
+             (id, lexicon_id, term, normalized_term, phonetic, language, kind, lemma,
+              part_of_speech, definition, context_explanation, collocations_json,
+              tags_json, created_at, updated_at)
+             VALUES (?, ?, ?, ?, ?, 'en', 'word', ?, ?, ?, '', '[]', '[]', ?, ?)`,
+          )
+          .run(
+            vocabularyId,
+            entry.id,
+            entry.term,
+            entry.normalizedTerm,
+            entry.phonetic,
+            entry.lemma,
+            entry.partOfSpeech,
+            definition,
+            now,
+            now,
+          );
+      } else {
+        this.connection
+          .prepare(
+            `UPDATE vocabulary_items SET
+               lexicon_id = COALESCE(lexicon_id, ?),
+               phonetic = CASE WHEN phonetic = '' THEN ? ELSE phonetic END,
+               lemma = CASE WHEN lemma = '' THEN ? ELSE lemma END,
+               part_of_speech = CASE WHEN part_of_speech = '' THEN ? ELSE part_of_speech END,
+               definition = CASE WHEN definition = '' THEN ? ELSE definition END,
+               updated_at = ?
+             WHERE id = ?`,
+          )
+          .run(
+            entry.id,
+            entry.phonetic,
+            entry.lemma,
+            entry.partOfSpeech,
+            definition,
+            now,
+            vocabularyId,
+          );
+      }
+      const duplicateSource = this.connection
+        .prepare(
+          `SELECT id FROM vocabulary_sources
+           WHERE vocabulary_id = ? AND source_type = 'wordbook' AND source_id = ?`,
+        )
+        .get(vocabularyId, wordbookId);
+      if (!duplicateSource) {
+        this.connection
+          .prepare(
+            `INSERT INTO vocabulary_sources
+             (id, vocabulary_id, source_type, source_id, context_sentence, created_at)
+             VALUES (?, ?, 'wordbook', ?, '', ?)`,
+          )
+          .run(newId(), vocabularyId, wordbookId, now);
       }
     });
     save();

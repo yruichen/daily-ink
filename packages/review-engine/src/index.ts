@@ -1,5 +1,13 @@
 import type { ReviewRating } from "@ielts-diary/contracts";
-import { createEmptyCard, fsrs, Rating, type Card, type Grade } from "ts-fsrs";
+import {
+  createEmptyCard,
+  default_w,
+  forgetting_curve,
+  fsrs,
+  Rating,
+  type Card,
+  type Grade,
+} from "ts-fsrs";
 
 const scheduler = fsrs({ request_retention: 0.9, enable_fuzz: true });
 
@@ -38,4 +46,47 @@ export const scheduleReview = (
     stateJson: JSON.stringify(result.card, replacer),
     dueAt: result.card.due.toISOString(),
   };
+};
+
+export type ReviewMemoryState = {
+  stability: number;
+  repetitions: number;
+  lastReview: string;
+};
+
+export const readReviewMemoryState = (
+  stateJson: string,
+): ReviewMemoryState | null => {
+  try {
+    const state = JSON.parse(stateJson) as Record<string, unknown>;
+    const stability = Number(state.stability);
+    const repetitions = Number(state.reps);
+    const lastReview = String(state.last_review ?? "");
+    if (
+      !Number.isFinite(stability) ||
+      stability <= 0 ||
+      !Number.isFinite(repetitions) ||
+      repetitions <= 0 ||
+      !lastReview ||
+      Number.isNaN(Date.parse(lastReview))
+    ) {
+      return null;
+    }
+    return { stability, repetitions, lastReview };
+  } catch {
+    return null;
+  }
+};
+
+export const forecastReviewRetention = (
+  stateJson: string,
+  at: Date,
+): number | null => {
+  const state = readReviewMemoryState(stateJson);
+  if (!state) return null;
+  const elapsedDays = Math.max(
+    0,
+    (at.getTime() - Date.parse(state.lastReview)) / 86_400_000,
+  );
+  return forgetting_curve(default_w, elapsedDays, state.stability);
 };

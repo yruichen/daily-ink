@@ -71,7 +71,6 @@ export const VocabularyPage = () => {
           aria-label={t("vocabulary.search")}
         />
       </div>
-
       {itemsQuery.isLoading ? (
         <div className="loading-block">
           <LoaderCircle className="spin" />

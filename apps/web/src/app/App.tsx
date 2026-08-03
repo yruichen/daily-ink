@@ -13,9 +13,19 @@ const VocabularyPage = lazy(() =>
     default: module.VocabularyPage,
   })),
 );
+const WordbooksPage = lazy(() =>
+  import("../pages/WordbooksPage").then((module) => ({
+    default: module.WordbooksPage,
+  })),
+);
 const ReviewPage = lazy(() =>
   import("../pages/ReviewPage").then((module) => ({
     default: module.ReviewPage,
+  })),
+);
+const LearningReportPage = lazy(() =>
+  import("../pages/LearningReportPage").then((module) => ({
+    default: module.LearningReportPage,
   })),
 );
 const SettingsPage = lazy(() =>
@@ -31,7 +41,9 @@ export const App = () => (
         <Route element={<AppShell />}>
           <Route index element={<JournalPage />} />
           <Route path="vocabulary" element={<VocabularyPage />} />
+          <Route path="wordbooks" element={<WordbooksPage />} />
           <Route path="review" element={<ReviewPage />} />
+          <Route path="learning" element={<LearningReportPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>

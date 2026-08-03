@@ -7,3 +7,6 @@ export * from "./provider-repository";
 export * from "./job-repository";
 export * from "./vocabulary-repository";
 export * from "./review-repository";
+export * from "./lexicon-repository";
+export * from "./learning-settings-repository";
+export * from "./review-analytics-repository";

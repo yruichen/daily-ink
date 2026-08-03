@@ -58,6 +58,8 @@ repetition.
   APIs, including local endpoints such as Ollama and LM Studio.
 - **Contextual vocabulary capture** from both the original entry and the AI
   rewrite, with support for words and phrases.
+- **Built-in IELTS wordbooks** with IELTS Core, an extended 10,000-word set,
+  and AWL vocabulary available offline.
 - **FSRS spaced repetition** with separate recognition and contextual
   production cards.
 - **Local-first privacy**: journal data and encrypted provider credentials stay

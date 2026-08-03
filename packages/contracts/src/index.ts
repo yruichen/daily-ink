@@ -97,7 +97,7 @@ export const vocabularyInputSchema = z.object({
   kind: vocabularyKindSchema,
   definition: z.string().max(1000).default(""),
   contextSentence: z.string().max(2000).default(""),
-  sourceType: z.enum(["journal", "rewrite", "manual"]),
+  sourceType: z.enum(["journal", "rewrite", "manual", "wordbook"]),
   sourceId: z.string().nullable().default(null),
   tags: z.array(z.string().trim().min(1).max(32)).max(12).default([]),
 });
@@ -105,8 +105,10 @@ export type VocabularyInput = z.infer<typeof vocabularyInputSchema>;
 
 export const vocabularyItemSchema = z.object({
   id: z.string().uuid(),
+  lexiconId: z.string().nullable(),
   term: z.string(),
   normalizedTerm: z.string(),
+  phonetic: z.string(),
   kind: vocabularyKindSchema,
   lemma: z.string(),
   partOfSpeech: z.string(),
@@ -120,6 +122,39 @@ export const vocabularyItemSchema = z.object({
   updatedAt: z.string(),
 });
 export type VocabularyItem = z.infer<typeof vocabularyItemSchema>;
+
+export const wordbookSummarySchema = z.object({
+  id: z.string(),
+  nameKey: z.string(),
+  descriptionKey: z.string(),
+  entryCount: z.number().int().nonnegative(),
+  addedCount: z.number().int().nonnegative(),
+});
+export type WordbookSummary = z.infer<typeof wordbookSummarySchema>;
+
+export const lexiconEntrySchema = z.object({
+  id: z.string(),
+  term: z.string(),
+  normalizedTerm: z.string(),
+  phonetic: z.string(),
+  definitionEn: z.string(),
+  translationZh: z.string(),
+  partOfSpeech: z.string(),
+  lemma: z.string(),
+  bncRank: z.number().int().positive().nullable(),
+  frequencyRank: z.number().int().positive().nullable(),
+  level: z.number().int().min(1).max(10).nullable(),
+  isAdded: z.boolean(),
+});
+export type LexiconEntry = z.infer<typeof lexiconEntrySchema>;
+
+export const lexiconEntryPageSchema = z.object({
+  items: z.array(lexiconEntrySchema),
+  page: z.number().int().positive(),
+  pageSize: z.number().int().positive(),
+  total: z.number().int().nonnegative(),
+});
+export type LexiconEntryPage = z.infer<typeof lexiconEntryPageSchema>;
 
 export const reviewRatingSchema = z.enum(["again", "hard", "good", "easy"]);
 export type ReviewRating = z.infer<typeof reviewRatingSchema>;
@@ -136,6 +171,51 @@ export const reviewCardSchema = z.object({
   state: z.string(),
 });
 export type ReviewCard = z.infer<typeof reviewCardSchema>;
+
+export const learningPreferencesSchema = z.object({
+  newWordsPerSession: z.number().int().min(1).max(100).default(20),
+});
+export type LearningPreferences = z.infer<typeof learningPreferencesSchema>;
+
+const datedCountSchema = z.object({
+  date: z.string(),
+  count: z.number().int().nonnegative(),
+});
+
+export const learningReportSchema = z.object({
+  generatedAt: z.string(),
+  summary: z.object({
+    totalVocabulary: z.number().int().nonnegative(),
+    studiedVocabulary: z.number().int().nonnegative(),
+    masteredVocabulary: z.number().int().nonnegative(),
+    dueNow: z.number().int().nonnegative(),
+    reviewsToday: z.number().int().nonnegative(),
+    reviewsLast7Days: z.number().int().nonnegative(),
+    retentionRate30Days: z.number().min(0).max(100),
+    currentStreak: z.number().int().nonnegative(),
+    longestStreak: z.number().int().nonnegative(),
+  }),
+  ratingCounts: z.object({
+    again: z.number().int().nonnegative(),
+    hard: z.number().int().nonnegative(),
+    good: z.number().int().nonnegative(),
+    easy: z.number().int().nonnegative(),
+  }),
+  activity: z.array(
+    datedCountSchema.extend({
+      remembered: z.number().int().nonnegative(),
+    }),
+  ),
+  forecast: z.array(datedCountSchema),
+  forgettingCurve: z.array(
+    z.object({
+      day: z.number().int().nonnegative(),
+      retention: z.number().min(0).max(100),
+    }),
+  ),
+  curveSampleSize: z.number().int().nonnegative(),
+});
+export type LearningReport = z.infer<typeof learningReportSchema>;
 
 export const providerProtocolSchema = z.enum(["openai", "anthropic"]);
 export const providerProfileInputSchema = z.object({

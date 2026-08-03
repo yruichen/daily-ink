@@ -29,6 +29,7 @@
   "scripts": {
     "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @ielts-diary/api\" \"npm run dev -w @ielts-diary/web\"",
     "build": "npm run build -w @ielts-diary/web && npm run build -w @ielts-diary/api",
+    "data:lexicon": "node scripts/build-ielts-lexicon.mjs",
     "start": "npm run start -w @ielts-diary/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",

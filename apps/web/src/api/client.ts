@@ -1,6 +1,9 @@
 import type {
   Assessment,
   Job,
+  LearningPreferences,
+  LearningReport,
+  LexiconEntryPage,
   JournalEntry,
   ProviderProfile,
   ProviderProfileInput,
@@ -10,6 +13,7 @@ import type {
   SaveJournalInput,
   VocabularyInput,
   VocabularyItem,
+  WordbookSummary,
 } from "@ielts-diary/contracts";
 
 const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
@@ -93,6 +97,50 @@ export const api = {
     request<{ dueAt: string }>(`/api/v1/reviews/${id}/rate`, {
       method: "POST",
       body: JSON.stringify({ rating }),
+    }),
+  learningPreferences: () =>
+    request<{ preferences: LearningPreferences }>(
+      "/api/v1/learning/preferences",
+    ),
+  saveLearningPreferences: (preferences: LearningPreferences) =>
+    request<{ preferences: LearningPreferences }>(
+      "/api/v1/learning/preferences",
+      { method: "PUT", body: JSON.stringify(preferences) },
+    ),
+  learningReport: (timezoneOffsetMinutes: number) =>
+    request<{ report: LearningReport }>(
+      `/api/v1/learning/report?timezoneOffsetMinutes=${timezoneOffsetMinutes}`,
+    ),
+  wordbooks: () =>
+    request<{ wordbooks: WordbookSummary[] }>("/api/v1/wordbooks"),
+  wordbookEntries: (wordbookId: string, query = "", page = 1, pageSize = 50) =>
+    request<LexiconEntryPage>(
+      `/api/v1/wordbooks/${encodeURIComponent(wordbookId)}/entries?q=${encodeURIComponent(query)}&page=${page}&pageSize=${pageSize}`,
+    ),
+  addWordbookEntry: (
+    wordbookId: string,
+    entryId: string,
+    locale: "en" | "zh-CN",
+  ) =>
+    request<{ item: VocabularyItem; created: boolean }>(
+      `/api/v1/wordbooks/${encodeURIComponent(wordbookId)}/entries/${encodeURIComponent(entryId)}/add`,
+      { method: "POST", body: JSON.stringify({ locale }) },
+    ),
+  addWordbookEntries: (
+    wordbookId: string,
+    input: {
+      locale: "en" | "zh-CN";
+      entryIds?: string[];
+      limit?: number;
+    },
+  ) =>
+    request<{
+      requestedCount: number;
+      createdCount: number;
+      existingCount: number;
+    }>(`/api/v1/wordbooks/${encodeURIComponent(wordbookId)}/entries/add`, {
+      method: "POST",
+      body: JSON.stringify(input),
     }),
   providers: () =>
     request<{ profiles: ProviderProfile[] }>("/api/v1/providers"),

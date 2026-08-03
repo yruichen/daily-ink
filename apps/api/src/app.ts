@@ -7,9 +7,12 @@ import {
   createConnection,
   JobRepository,
   JournalRepository,
+  LearningSettingsRepository,
+  LexiconRepository,
   migrate,
   ProviderRepository,
   ReviewRepository,
+  ReviewAnalyticsRepository,
   RewriteRepository,
   VocabularyRepository,
 } from "@ielts-diary/database";
@@ -20,10 +23,12 @@ import { SecretVault } from "./infrastructure/secret-vault";
 import { registerAssessmentRoutes } from "./modules/assessment/routes";
 import { registerJobRoutes } from "./modules/jobs/routes";
 import { registerJournalRoutes } from "./modules/journal/routes";
+import { registerLearningRoutes } from "./modules/learning/routes";
 import { JobProcessor } from "./modules/llm/job-processor";
 import { registerReviewRoutes } from "./modules/review/routes";
 import { registerSettingsRoutes } from "./modules/settings/routes";
 import { registerVocabularyRoutes } from "./modules/vocabulary/routes";
+import { registerWordbookRoutes } from "./modules/wordbooks/routes";
 
 export const buildApp = async (
   config: AppConfig = loadConfig(),
@@ -50,7 +55,10 @@ export const buildApp = async (
     rewrites: new RewriteRepository(connection),
     providers: new ProviderRepository(connection),
     vocabulary: new VocabularyRepository(connection),
+    lexicon: new LexiconRepository(connection),
     reviews: new ReviewRepository(connection),
+    reviewAnalytics: new ReviewAnalyticsRepository(connection),
+    learningSettings: new LearningSettingsRepository(connection),
     jobs: new JobRepository(connection),
     prompts,
     vault: new SecretVault(config.dataDir),
@@ -70,10 +78,12 @@ export const buildApp = async (
   }));
 
   await registerJournalRoutes(app, context);
+  await registerLearningRoutes(app, context);
   await registerAssessmentRoutes(app, context, processor);
   await registerJobRoutes(app, context);
   await registerSettingsRoutes(app, context);
   await registerVocabularyRoutes(app, context, processor);
+  await registerWordbookRoutes(app, context);
   await registerReviewRoutes(app, context);
 
   if (fs.existsSync(config.webDistDir)) {

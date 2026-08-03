@@ -14,9 +14,18 @@ export class ReviewRepository {
         .prepare(
           `INSERT OR IGNORE INTO review_cards
            (id, vocabulary_id, card_type, fsrs_state_json, due_at, suspended, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, 0, ?, ?)`,
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         )
-        .run(newId(), vocabularyId, cardType, initialState, dueAt, now, now);
+        .run(
+          newId(),
+          vocabularyId,
+          cardType,
+          initialState,
+          dueAt,
+          cardType === "production" ? 1 : 0,
+          now,
+          now,
+        );
     }
   }
 
@@ -86,6 +95,20 @@ export class ReviewRepository {
            VALUES (?, ?, ?, ?, ?, ?)`,
         )
         .run(newId(), cardId, rating, reviewedAt, previousState, nextState);
+      if (rating === "good" || rating === "easy") {
+        this.connection
+          .prepare(
+            `UPDATE review_cards
+             SET suspended = 0,
+                 due_at = CASE WHEN due_at > ? THEN ? ELSE due_at END,
+                 updated_at = ?
+             WHERE card_type = 'production'
+               AND vocabulary_id = (
+                 SELECT vocabulary_id FROM review_cards WHERE id = ? AND card_type = 'recognition'
+               )`,
+          )
+          .run(reviewedAt, reviewedAt, reviewedAt, cardId);
+      }
     });
     save();
   }

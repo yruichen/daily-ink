@@ -3,8 +3,11 @@ import type {
   AssessmentRepository,
   JobRepository,
   JournalRepository,
+  LearningSettingsRepository,
+  LexiconRepository,
   ProviderRepository,
   ReviewRepository,
+  ReviewAnalyticsRepository,
   RewriteRepository,
   VocabularyRepository,
   DbConnection,
@@ -21,7 +24,10 @@ export type AppContext = {
   rewrites: RewriteRepository;
   providers: ProviderRepository;
   vocabulary: VocabularyRepository;
+  lexicon: LexiconRepository;
   reviews: ReviewRepository;
+  reviewAnalytics: ReviewAnalyticsRepository;
+  learningSettings: LearningSettingsRepository;
   jobs: JobRepository;
   prompts: PromptRegistry;
   vault: SecretVault;

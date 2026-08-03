@@ -1,0 +1,327 @@
+.search-field {
+  max-width: 34rem;
+  height: 2.8rem;
+  margin-bottom: 1.4rem;
+  padding: 0 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.search-field svg {
+  color: var(--text-tertiary);
+}
+
+.search-field input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 0.86rem;
+}
+
+.wordbook-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.study-amount-control {
+  min-height: 3.2rem;
+  padding: 0.45rem 0.55rem 0.45rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.study-amount-control > div {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.study-amount-control .button {
+  min-width: 1.85rem;
+  min-height: 1.85rem;
+  padding: 0;
+}
+
+.study-amount-control label {
+  height: 2rem;
+  padding: 0 0.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.study-amount-control input {
+  width: 2.6rem;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  background: transparent;
+  text-align: right;
+  font-weight: 680;
+  appearance: textfield;
+}
+
+.study-amount-control input::-webkit-inner-spin-button,
+.study-amount-control input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.study-amount-control small {
+  color: var(--text-tertiary);
+}
+
+.study-amount-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--accent);
+}
+
+.wordbook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.85rem;
+}
+
+.wordbook-card {
+  min-height: 15rem;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  text-align: left;
+  background: var(--surface);
+  transition:
+    transform 140ms ease-out,
+    border-color 140ms ease-out,
+    box-shadow 140ms ease-out;
+}
+
+.wordbook-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-small);
+}
+
+.wordbook-icon {
+  width: 2.65rem;
+  height: 2.65rem;
+  margin-bottom: 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.wordbook-card strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.wordbook-card p {
+  min-height: 3.1rem;
+  margin: 0.45rem 0 1rem;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.wordbook-progress {
+  height: 0.25rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e4e6e2;
+}
+
+.wordbook-progress span {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.wordbook-card small {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+}
+
+.wordbook-card-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.wordbook-toolbar {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.wordbook-toolbar h2 {
+  margin: 0.1rem 0 0.25rem;
+  font-size: 1.15rem;
+}
+
+.wordbook-toolbar p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.wordbook-primary-actions {
+  margin-bottom: 1.1rem;
+  padding: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border: 1px solid #d4e3de;
+  border-radius: 8px;
+  background: var(--accent-soft);
+}
+
+.wordbook-primary-actions > span {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.wordbook-list-controls {
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: minmax(15rem, 1fr) auto auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wordbook-list-controls .search-field {
+  width: 100%;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.select-page {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.select-page input,
+.entry-select input {
+  accent-color: var(--accent);
+}
+
+.lexicon-list {
+  border-top: 1px solid var(--line);
+}
+
+.lexicon-row {
+  min-height: 6.8rem;
+  padding: 0.95rem 0;
+  display: grid;
+  grid-template-columns:
+    auto minmax(11rem, 0.75fr) minmax(18rem, 1.5fr)
+    minmax(7rem, 0.55fr) auto;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lexicon-row.selected {
+  background: rgba(227, 240, 235, 0.55);
+}
+
+.entry-select {
+  min-width: 1.25rem;
+  display: grid;
+  place-items: center;
+}
+
+.lexicon-term {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.lexicon-term h3 {
+  margin: 0;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.lexicon-term span {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+}
+
+.sound-button {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+}
+
+.sound-button:hover {
+  background: var(--accent-soft);
+}
+
+.lexicon-row > p {
+  margin: 0;
+  overflow: hidden;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: pre-line;
+}
+
+.lexicon-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+}
+
+.pagination {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}

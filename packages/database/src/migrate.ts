@@ -1,4 +1,5 @@
 import type { DbConnection } from "./connection";
+import { seedLexicon } from "./lexicon-seed";
 
 const migration = `
 CREATE TABLE IF NOT EXISTS journal_entries (
@@ -58,8 +59,10 @@ CREATE TABLE IF NOT EXISTS provider_profiles (
 );
 CREATE TABLE IF NOT EXISTS vocabulary_items (
   id TEXT PRIMARY KEY,
+  lexicon_id TEXT,
   term TEXT NOT NULL,
   normalized_term TEXT NOT NULL,
+  phonetic TEXT NOT NULL DEFAULT '',
   language TEXT NOT NULL DEFAULT 'en',
   kind TEXT NOT NULL,
   lemma TEXT NOT NULL DEFAULT '',
@@ -72,6 +75,35 @@ CREATE TABLE IF NOT EXISTS vocabulary_items (
   updated_at TEXT NOT NULL,
   UNIQUE(normalized_term, language, kind)
 );
+CREATE TABLE IF NOT EXISTS lexicon_entries (
+  id TEXT PRIMARY KEY,
+  term TEXT NOT NULL,
+  normalized_term TEXT NOT NULL UNIQUE,
+  phonetic TEXT NOT NULL DEFAULT '',
+  definition_en TEXT NOT NULL DEFAULT '',
+  translation_zh TEXT NOT NULL DEFAULT '',
+  part_of_speech TEXT NOT NULL DEFAULT '',
+  lemma TEXT NOT NULL DEFAULT '',
+  exchange TEXT NOT NULL DEFAULT '',
+  bnc_rank INTEGER,
+  frequency_rank INTEGER
+);
+CREATE INDEX IF NOT EXISTS lexicon_entries_search_idx ON lexicon_entries(normalized_term);
+CREATE TABLE IF NOT EXISTS wordbooks (
+  id TEXT PRIMARY KEY,
+  name_key TEXT NOT NULL,
+  description_key TEXT NOT NULL,
+  source TEXT NOT NULL,
+  builtin INTEGER NOT NULL DEFAULT 1
+);
+CREATE TABLE IF NOT EXISTS wordbook_entries (
+  wordbook_id TEXT NOT NULL REFERENCES wordbooks(id) ON DELETE CASCADE,
+  lexicon_id TEXT NOT NULL REFERENCES lexicon_entries(id) ON DELETE CASCADE,
+  level INTEGER,
+  sort_order INTEGER NOT NULL,
+  PRIMARY KEY (wordbook_id, lexicon_id)
+);
+CREATE INDEX IF NOT EXISTS wordbook_entries_order_idx ON wordbook_entries(wordbook_id, sort_order);
 CREATE TABLE IF NOT EXISTS vocabulary_sources (
   id TEXT PRIMARY KEY,
   vocabulary_id TEXT NOT NULL REFERENCES vocabulary_items(id) ON DELETE CASCADE,
@@ -101,6 +133,7 @@ CREATE TABLE IF NOT EXISTS review_logs (
   previous_state_json TEXT NOT NULL,
   next_state_json TEXT NOT NULL
 );
+CREATE INDEX IF NOT EXISTS review_logs_reviewed_idx ON review_logs(reviewed_at);
 CREATE TABLE IF NOT EXISTS jobs (
   id TEXT PRIMARY KEY,
   type TEXT NOT NULL,
@@ -122,4 +155,20 @@ CREATE TABLE IF NOT EXISTS app_settings (
 
 export const migrate = (connection: DbConnection): void => {
   connection.exec(migration);
+  const vocabularyColumns = connection
+    .prepare("PRAGMA table_info(vocabulary_items)")
+    .all() as Array<{ name: string }>;
+  const columnNames = new Set(vocabularyColumns.map((column) => column.name));
+  if (!columnNames.has("lexicon_id")) {
+    connection.exec("ALTER TABLE vocabulary_items ADD COLUMN lexicon_id TEXT");
+  }
+  if (!columnNames.has("phonetic")) {
+    connection.exec(
+      "ALTER TABLE vocabulary_items ADD COLUMN phonetic TEXT NOT NULL DEFAULT ''",
+    );
+  }
+  connection.exec(
+    "CREATE INDEX IF NOT EXISTS vocabulary_items_lexicon_idx ON vocabulary_items(lexicon_id)",
+  );
+  seedLexicon(connection);
 };

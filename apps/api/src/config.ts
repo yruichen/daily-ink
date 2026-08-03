@@ -1,4 +1,5 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export type AppConfig = {
   host: string;
@@ -10,7 +11,14 @@ export type AppConfig = {
 };
 
 export const loadConfig = (): AppConfig => {
-  const root = process.cwd();
+  // Resolve bundled assets from the repository/application root instead of the
+  // caller's working directory. npm workspaces run package scripts from the
+  // workspace directory, while the Docker image starts the same bundle from
+  // /app; import.meta.url is stable in both layouts.
+  const root = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    "../../..",
+  );
   return {
     host: process.env.HOST ?? "127.0.0.1",
     port: Number(process.env.PORT ?? 4317),

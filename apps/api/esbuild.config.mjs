@@ -1,4 +1,4 @@
-import { rm } from "node:fs/promises";
+import { copyFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -31,3 +31,14 @@ await build({
     "@ielts-diary/review-engine": workspaceEntry("review-engine"),
   },
 });
+
+await copyFile(
+  path.join(
+    rootDirectory,
+    "packages",
+    "database",
+    "data",
+    "ielts-lexicon.json.gz",
+  ),
+  path.join(apiDirectory, "dist", "ielts-lexicon.json.gz"),
+);

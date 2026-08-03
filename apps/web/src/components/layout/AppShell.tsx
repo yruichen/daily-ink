@@ -1,5 +1,7 @@
 import {
   BookOpenText,
+  BookMarked,
+  ChartNoAxesCombined,
   Library,
   PenLine,
   RotateCcw,
@@ -11,7 +13,9 @@ import { NavLink, Outlet } from "react-router";
 const navigation = [
   { to: "/", key: "today", icon: PenLine },
   { to: "/vocabulary", key: "vocabulary", icon: Library },
+  { to: "/wordbooks", key: "wordbooks", icon: BookMarked },
   { to: "/review", key: "review", icon: RotateCcw },
+  { to: "/learning", key: "learning", icon: ChartNoAxesCombined },
   { to: "/settings", key: "settings", icon: Settings },
 ] as const;
 
