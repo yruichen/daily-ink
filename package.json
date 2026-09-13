@@ -43,13 +43,13 @@
   "packageManager": "npm@11.17.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^24.1.0",
+    "@types/node": "^24.13.4",
     "concurrently": "^9.2.0",
-    "eslint": "^10.8.0",
+    "eslint": "^10.10.0",
     "eslint-plugin-import-x": "^4.17.1",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.65.0",
+    "typescript-eslint": "^8.70.0",
     "vitest": "^3.2.4"
   },
   "allowScripts": {
