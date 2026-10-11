@@ -6,7 +6,7 @@
   "exports": "./src/index.ts",
   "dependencies": {
     "@ielts-diary/contracts": "*",
-    "ts-fsrs": "^5.2.3"
+    "ts-fsrs": "^5.4.2"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json"
